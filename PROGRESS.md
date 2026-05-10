@@ -29,6 +29,12 @@
 - Install `requirements-api.txt` only if HTTP adapter runtime verification is needed.
 - Commit the completed migration implementation after review.
 
+### Documentation Update
+
+- Reduced `README.md` to a minimal run, compare, migrate, verify, and documentation-link guide.
+- Moved detailed feature, source-of-truth, data-format, verification, and maintenance notes to `docs/project_details.md`.
+- Documented the local run-path menu mismatch: `./run.sh` exits with simulator option `8`; the modernized Python menu exits with option `7`.
+
 ### Verification Run
 
 - `python3 -m pytest`: 30 passed.
