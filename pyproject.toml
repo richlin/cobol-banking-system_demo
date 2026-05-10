@@ -1,10 +1,10 @@
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["."]
+testpaths = ["modernized/tests"]
+pythonpath = ["modernized"]
 
 [tool.coverage.run]
 branch = true
-source = ["banking"]
+source = ["modernized/banking"]
 
 [tool.coverage.report]
 show_missing = true

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a modern Python and SQLite banking application that reproduces `BANKACCT.cob` behavior and migrates legacy `.DAT` files without using the simulator as source of truth.
+**Goal:** Build a modern Python and SQLite banking application that reproduces `legacy/BANKACCT.cob` behavior and migrates legacy `.DAT` files without using the simulator as source of truth.
 
 **Architecture:** The implementation separates COBOL record parsing, domain behavior, SQLite persistence, and interfaces. The COBOL program remains the behavioral source of truth; simulator-only behavior is documented as a mismatch and excluded unless needed for data preservation.
 
@@ -16,14 +16,14 @@
 - `DECISIONS.md`: target stack and behavior-source decisions.
 - `PROGRESS.md`: session progress, blockers, and next steps.
 - `tasks/todo.md`: executable task checklist linked to the migration plan.
-- `banking/models.py`: dataclasses and domain exceptions.
-- `banking/cobol_records.py`: fixed-width customer and transaction record parsing/formatting.
-- `banking/domain.py`: behavior-equivalent account, deposit, withdrawal, statement, and interest operations.
-- `banking/storage.py`: SQLite schema and repository.
-- `banking/migration.py`: `.DAT` to SQLite migration with row-level validation.
-- `banking/cli.py`: independent runnable CLI for end-to-end scenarios.
-- `banking/api.py`: optional FastAPI adapter around the service layer.
-- `tests/`: characterization, unit, integration, migration, and documentation coverage tests.
+- `modernized/banking/models.py`: dataclasses and domain exceptions.
+- `modernized/banking/cobol_records.py`: fixed-width customer and transaction record parsing/formatting.
+- `modernized/banking/domain.py`: behavior-equivalent account, deposit, withdrawal, statement, and interest operations.
+- `modernized/banking/storage.py`: SQLite schema and repository.
+- `modernized/banking/migration.py`: `.DAT` to SQLite migration with row-level validation.
+- `modernized/banking/cli.py`: independent runnable CLI for end-to-end scenarios.
+- `modernized/banking/api.py`: optional FastAPI adapter around the service layer.
+- `modernized/tests/`: characterization, unit, integration, migration, and documentation coverage tests.
 
 ## Tasks
 
@@ -42,6 +42,6 @@
 
 - `python3 -m pytest`
 - `python3 -m coverage run -m pytest`
-- `python3 -m coverage report --include='banking/domain.py,banking/cobol_records.py,banking/migration.py' --fail-under=90`
-- `python3 -m banking.cli smoke --db /tmp/cobol_banking_smoke.sqlite3`
-- `python3 -m banking.migration CUSTOMERS.DAT TRANSACTIONS.DAT /tmp/cobol_banking_migrated.sqlite3`
+- `python3 -m coverage report --include='modernized/banking/domain.py,modernized/banking/cobol_records.py,modernized/banking/migration.py,modernized/banking/simulator_compat.py' --fail-under=90`
+- `PYTHONPATH=modernized python3 -m banking.cli smoke --db /tmp/cobol_banking_smoke.sqlite3`
+- `PYTHONPATH=modernized python3 -m banking.migration legacy/CUSTOMERS.DAT legacy/TRANSACTIONS.DAT /tmp/cobol_banking_migrated.sqlite3`

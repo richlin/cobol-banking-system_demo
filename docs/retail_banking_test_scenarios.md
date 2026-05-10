@@ -93,8 +93,8 @@ This catalog thinks from a retail banking customer's point of view. It separates
 
 | ID | Priority | Scope | Scenario | Expected Outcome |
 | --- | --- | --- | --- | --- |
-| RB-052 | P0 | current | Migrate current `CUSTOMERS.DAT`. | All valid customer rows are imported. |
-| RB-053 | P0 | current | Migrate current `TRANSACTIONS.DAT`. | All valid transaction rows are imported. |
+| RB-052 | P0 | current | Migrate current `legacy/CUSTOMERS.DAT`. | All valid customer rows are imported. |
+| RB-053 | P0 | current | Migrate current `legacy/TRANSACTIONS.DAT`. | All valid transaction rows are imported. |
 | RB-054 | P0 | current | Migrate malformed customer row. | Row is rejected with source, line number, raw text, and reason. |
 | RB-055 | P0 | current | Migrate malformed transaction row. | Row is rejected with source, line number, raw text, and reason. |
 | RB-056 | P1 | current | Migrate old 50-character customer row without status suffix. | Customer imports successfully with no status metadata. |
@@ -171,6 +171,6 @@ This catalog thinks from a retail banking customer's point of view. It separates
 
 1. Keep all `current` and `compat` scenarios automated in pytest.
 2. Promote `future` scenarios into tests before implementing each new capability.
-3. Do not use simulator-only behavior to override `BANKACCT.cob` behavior unless a decision record explicitly changes the source-of-truth rule.
+3. Do not use simulator-only behavior to override `legacy/BANKACCT.cob` behavior unless a decision record explicitly changes the source-of-truth rule.
 4. For money movement scenarios, assert both balance changes and transaction-log side effects.
 5. For failed transactions, assert both customer-visible error behavior and absence of ledger mutation.

@@ -1,5 +1,39 @@
 # Progress
 
+## 2026-05-10
+
+### Completed
+
+- Reorganized legacy banking artifacts under `legacy/`: `BANKACCT.cob`, sample `.DAT` files, simulator executable, simulator compiler shim, run/setup scripts, attached setup notes, and the GnuCOBOL archive.
+- Reorganized the modernized implementation under `modernized/`: `banking/`, `tests/`, `scripts/`, and `requirements-api.txt`.
+- Kept the protected vendored `gnucobol-3.2/` source tree in place and documented that it is outside the banking application folder split.
+- Updated `pyproject.toml`, `legacy/run.sh`, `legacy/setup.sh`, `modernized/scripts/generate_simulator_test_cases.py`, and path-sensitive tests for the new layout.
+- Updated README, AGENTS.md, migration plan, decision records, legacy inventory, project details, retail scenario docs, and the modernization plan with current paths.
+
+### In Progress
+
+- None.
+
+### Blockers
+
+- FastAPI is still not installed in the current environment; the optional HTTP adapter remains unverified here.
+
+### Next Steps
+
+- Commit the folder reorganization after review.
+- Install `modernized/requirements-api.txt` only if HTTP adapter runtime verification is needed.
+
+### Verification Run
+
+- `python3 -m pytest`: 96 passed.
+- `python3 -m coverage run -m pytest`: 96 passed.
+- `python3 -m coverage report --include='modernized/banking/domain.py,modernized/banking/cobol_records.py,modernized/banking/migration.py,modernized/banking/simulator_compat.py' --fail-under=90`: 97% total coverage.
+- `PYTHONPATH=modernized python3 -m banking.cli smoke --db /private/tmp/cobol_banking_smoke_reorg.sqlite3`: smoke scenario passed.
+- `PYTHONPATH=modernized python3 -m banking.migration legacy/CUSTOMERS.DAT legacy/TRANSACTIONS.DAT /private/tmp/cobol_banking_migrated_reorg.sqlite3`: imported 4 customer rows and 11 transaction rows with 0 rejected rows.
+- `PYTHONPYCACHEPREFIX=/private/tmp/cobol_banking_pycache_reorg python3 -m compileall modernized/banking`: succeeded.
+- `PYTHONPATH=modernized python3 modernized/scripts/generate_simulator_test_cases.py`: wrote 64 simulator-derived cases to `modernized/tests/fixtures/simulator_test_cases.json`.
+- `python3 -m pytest modernized/tests/test_simulator_compatibility.py -q`: 65 passed.
+
 ## 2026-05-09
 
 ### Completed

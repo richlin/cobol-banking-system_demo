@@ -6,9 +6,10 @@ import tempfile
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
-SIMULATOR = ROOT / "BANKACCT"
-OUTPUT = ROOT / "tests" / "fixtures" / "simulator_test_cases.json"
+MODERNIZED_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = MODERNIZED_ROOT.parent
+SIMULATOR = REPO_ROOT / "legacy" / "BANKACCT"
+OUTPUT = MODERNIZED_ROOT / "tests" / "fixtures" / "simulator_test_cases.json"
 
 
 def customer_row(account_id, name, balance, account_type, status="A"):
