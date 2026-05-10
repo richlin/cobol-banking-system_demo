@@ -1,4 +1,4 @@
-"""Modernized banking application derived from BANKACCT.cob."""
+"""Modernized banking application derived from legacy/BANKACCT.cob."""
 
 __all__ = [
     "cobol_records",

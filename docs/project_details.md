@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains a COBOL banking demo and a modernized Python and SQLite implementation. The modernization treats `BANKACCT.cob` as the source of truth for legacy behavior. The generated simulator path is useful for compatibility testing, but it is not the migration authority unless `DECISIONS.md` says otherwise.
+This repository contains a COBOL banking demo under `legacy/` and a modernized Python and SQLite implementation under `modernized/`. The modernization treats `legacy/BANKACCT.cob` as the source of truth for legacy behavior. The generated simulator path is useful for compatibility testing, but it is not the migration authority unless `DECISIONS.md` says otherwise.
 
 ## Features
 
@@ -18,24 +18,24 @@ This repository contains a COBOL banking demo and a modernized Python and SQLite
 
 ### Modernized Python Scope
 
-- Python domain layer in `banking/domain.py`.
-- Fixed-width COBOL record parsing in `banking/cobol_records.py`.
-- SQLite persistence in `banking/storage.py`.
-- Data migration in `banking/migration.py`.
-- Interactive menu and smoke scenario in `banking/cli.py`.
-- Optional FastAPI adapter in `banking/api.py`.
-- Simulator-derived compatibility fixture in `tests/fixtures/simulator_test_cases.json`.
+- Python domain layer in `modernized/banking/domain.py`.
+- Fixed-width COBOL record parsing in `modernized/banking/cobol_records.py`.
+- SQLite persistence in `modernized/banking/storage.py`.
+- Data migration in `modernized/banking/migration.py`.
+- Interactive menu and smoke scenario in `modernized/banking/cli.py`.
+- Optional FastAPI adapter in `modernized/banking/api.py`.
+- Simulator-derived compatibility fixture in `modernized/tests/fixtures/simulator_test_cases.json`.
 
 ## Source of Truth
 
-- Authoritative legacy behavior: `BANKACCT.cob`
-- Legacy data files: `CUSTOMERS.DAT`, `TRANSACTIONS.DAT`
-- Simulator reference: `setup.sh`, `cobc`, generated `BANKACCT`
+- Authoritative legacy behavior: `legacy/BANKACCT.cob`
+- Legacy data files: `legacy/CUSTOMERS.DAT`, `legacy/TRANSACTIONS.DAT`
+- Simulator reference: `legacy/setup.sh`, `legacy/cobc`, generated `legacy/BANKACCT`
 - Modern target stack: Python 3 and SQLite
 
-Known mismatch: current `CUSTOMERS.DAT` rows may include a simulator-era status suffix at position 51. The modern migration preserves this suffix as metadata, but the COBOL source does not define inactive-account behavior.
+Known mismatch: current `legacy/CUSTOMERS.DAT` rows may include a simulator-era status suffix at position 51. The modern migration preserves this suffix as metadata, but the COBOL source does not define inactive-account behavior.
 
-Local run-path mismatch: `./run.sh` uses the simulator-backed `cobc` path and displays simulator menu option `8` for exit. The modernized Python menu follows the COBOL-source menu shape and exits with option `7`. Compare business actions, not the exit option.
+Local run-path mismatch: `./legacy/run.sh` uses the simulator-backed `cobc` path and displays simulator menu option `8` for exit. The modernized Python menu follows the COBOL-source menu shape and exits with option `7`. Compare business actions, not the exit option.
 
 ## Data Format
 
@@ -62,12 +62,14 @@ Local run-path mismatch: `./run.sh` uses the simulator-backed `cobc` path and di
 ## Project Structure
 
 ```text
-BANKACCT.cob                         Legacy COBOL source
-CUSTOMERS.DAT                        Legacy customer data
-TRANSACTIONS.DAT                     Legacy transaction data
-banking/                             Modern Python implementation
-tests/                               Automated tests
-scripts/generate_simulator_test_cases.py
+legacy/BANKACCT.cob                  Legacy COBOL source
+legacy/CUSTOMERS.DAT                 Legacy customer data
+legacy/TRANSACTIONS.DAT              Legacy transaction data
+legacy/setup.sh                      Legacy simulator setup helper
+legacy/run.sh                        Legacy simulator run helper
+modernized/banking/                  Modern Python implementation
+modernized/tests/                    Automated tests
+modernized/scripts/generate_simulator_test_cases.py
 docs/legacy_inventory.md             COBOL inventory
 docs/retail_banking_test_scenarios.md
 MIGRATION_PLAN.md
@@ -96,8 +98,8 @@ python3 -m pytest
 Regenerate and run simulator-derived tests:
 
 ```bash
-python3 scripts/generate_simulator_test_cases.py
-python3 -m pytest tests/test_simulator_compatibility.py
+PYTHONPATH=modernized python3 modernized/scripts/generate_simulator_test_cases.py
+python3 -m pytest modernized/tests/test_simulator_compatibility.py
 ```
 
 ## Scenario Catalog
