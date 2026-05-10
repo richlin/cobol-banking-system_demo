@@ -4,6 +4,7 @@
 
 - [x] Implement `MIGRATION_PLAN.md` with `BANKACCT.cob` as the source of truth.
 - [x] Generate 50-70 simulator-derived regression cases and test the modernized code against them.
+- [x] Simplify README and move detailed project information into docs.
 
 ## Checklist
 
@@ -16,6 +17,8 @@
 - [x] Save simulator-derived test cases to a fixture file.
 - [x] Add automated compatibility tests that replay the fixture against the modernized code.
 - [x] Run the simulator-derived compatibility test suite.
+- [x] Keep README limited to run, compare, migrate, verify, and doc links.
+- [x] Move detailed feature, architecture, data, and maintenance notes into `docs/project_details.md`.
 
 ## Explicit Exclusions
 
